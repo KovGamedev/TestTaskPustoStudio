@@ -1,10 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class Arrow : MonoBehaviour
 {
+    [SerializeField] private ArrowTuningConfig _tuningConfig;
     [SerializeField] private Collider _collider;
+
+    public void Tune(float targetLocalZ)
+    {
+        transform.DOLocalRotate(new Vector3(0, 0, targetLocalZ), _tuningConfig.GetDuration())
+            .SetEase(_tuningConfig.GetEasing())
+            .Play();
+    }
 
     public void OnMouseDrag()
     {
