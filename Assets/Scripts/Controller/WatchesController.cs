@@ -41,8 +41,7 @@ public class WatchesController : MonoBehaviour
 
     private IEnumerator CountDownHour()
     {
-        var secondsInHour = 60 * 60;
-        for (var i = 0; i < secondsInHour; i++) {
+        for (var i = 0; i < Const.SecondsInHour; i++) {
             yield return new WaitForSeconds(1);
             _watchesModel.AddOneSecond();
             UpdateViews();
@@ -82,7 +81,6 @@ public class WatchesController : MonoBehaviour
     {
         while (true)
         {
-            Debug.Log(123);
             yield return new WaitForSeconds(1);
             _watchesModel.AddOneSecond();
             UpdateViews();

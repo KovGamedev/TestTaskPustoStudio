@@ -11,14 +11,9 @@ public class WatchesViewAnalog : MonoBehaviour, IClockwork, IEditable
 
     public void Tune(DateTime targetTime)
     {
-        var hoursInClockFace = 12f;
-        _hoursArrow.Tune(360f * (targetTime.Hour % hoursInClockFace) / hoursInClockFace);
-
-        var minutesInHour = 60f;
-        _minutesArrow.Tune(360f * targetTime.Minute / minutesInHour);
-
-        var secondsInMinute = 60f;
-        _secondsArrow.Tune(360f * targetTime.Second / secondsInMinute);
+        _hoursArrow.Tune(360f * (targetTime.Hour % Const.HoursInClockFace) / Const.HoursInClockFace);
+        _minutesArrow.Tune(360f * targetTime.Minute / Const.MinutesInHour);
+        _secondsArrow.Tune(360f * targetTime.Second / Const.SecondsInMinute);
     }
 
     public void Setcontroller(WatchesController controller) => _watchesController = controller;
@@ -40,13 +35,9 @@ public class WatchesViewAnalog : MonoBehaviour, IClockwork, IEditable
     public void ApplyEditing()
     {
         var currentTime = DateTime.Now;
-
-        var hoursInClockFace = 12f;
-        var hours = Mathf.FloorToInt(hoursInClockFace * _hoursArrow.transform.localRotation.eulerAngles.z / 360f);
-        var minutesInHour = 60f;
-        var minutes = Mathf.FloorToInt(minutesInHour * _minutesArrow.transform.localRotation.eulerAngles.z / 360f);
-        var secondsInMinute = 60f;
-        var seconds = Mathf.FloorToInt(secondsInMinute * _secondsArrow.transform.localRotation.eulerAngles.z / 360f);
+        var hours = Mathf.FloorToInt(Const.HoursInClockFace * _hoursArrow.transform.localRotation.eulerAngles.z / 360f);
+        var minutes = Mathf.FloorToInt(Const.MinutesInHour * _minutesArrow.transform.localRotation.eulerAngles.z / 360f);
+        var seconds = Mathf.FloorToInt(Const.SecondsInMinute * _secondsArrow.transform.localRotation.eulerAngles.z / 360f);
         var newTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, hours, minutes, seconds);
         Debug.Log(newTime);
     }
