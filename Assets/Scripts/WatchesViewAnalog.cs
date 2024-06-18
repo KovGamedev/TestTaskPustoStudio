@@ -1,16 +1,16 @@
+using System;
 using UnityEngine;
 
-public class WatchesViewAnalog : MonoBehaviour
+public class WatchesViewAnalog : MonoBehaviour, IClockwork
 {
     [SerializeField] private Transform _minutesArrow;
     [SerializeField] private Transform _hoursArrow;
 
-    private void Start()
+    public void Tune(DateTime targetTime)
     {
-        var now = System.DateTime.Now;
         var minutesInHour = 60f;
         var hoursInClockFace = 12f;
-        _minutesArrow.localRotation = Quaternion.Euler(0, 0, 360f * now.Minute / minutesInHour);
-        _hoursArrow.localRotation = Quaternion.Euler(0, 0, 360f * (now.Hour % hoursInClockFace) / hoursInClockFace);
+        _minutesArrow.localRotation = Quaternion.Euler(0, 0, 360f * targetTime.Minute / minutesInHour);
+        _hoursArrow.localRotation = Quaternion.Euler(0, 0, 360f * (targetTime.Hour % hoursInClockFace) / hoursInClockFace);
     }
 }

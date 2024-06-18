@@ -4,9 +4,14 @@ using System.Text;
 using TMPro;
 using UnityEngine;
 
-public class Watches : MonoBehaviour
+public class Watches : MonoBehaviour, IClockwork
 {
     [SerializeField] private TMP_InputField _digitalWatches;
+
+    public void Tune(DateTime targetTime)
+    {
+        OnUserInput(targetTime.ToString("hh:mm:ss"));
+    }
 
     public void OnUserInput(String inputString)
     {
@@ -18,11 +23,5 @@ public class Watches : MonoBehaviour
         var seconds = 4 <= builder.Length ? builder.ToString(4, builder.Length - 4) : "";
         _digitalWatches.text = String.Format("{0:00}:{1:00}:{2:00}", hours, minutes, seconds);
         _digitalWatches.MoveTextEnd(false);
-    }
-
-    private void Start()
-    {
-        var now = System.DateTime.Now;
-        OnUserInput(now.ToString("hh:mm:ss"));
     }
 }
