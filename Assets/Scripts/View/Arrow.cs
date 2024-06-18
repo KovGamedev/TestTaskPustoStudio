@@ -13,6 +13,8 @@ public class Arrow : MonoBehaviour
             .Play();
     }
 
+    public Collider GetCollider() => _collider;
+
     public void OnMouseDrag()
     {
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out var hit) && hit.transform == transform)
