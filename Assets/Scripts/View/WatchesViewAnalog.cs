@@ -16,7 +16,7 @@ public class WatchesViewAnalog : MonoBehaviour, IClockwork, IEditable
         _secondsArrow.Tune(360f * targetTime.Second / Const.SecondsInMinute);
     }
 
-    public void Setcontroller(WatchesController controller) => _watchesController = controller;
+    public void SetController(WatchesController controller) => _watchesController = controller;
 
     public void ActivateEditMode()
     {
@@ -32,13 +32,14 @@ public class WatchesViewAnalog : MonoBehaviour, IClockwork, IEditable
         _secondsArrow.GetCollider().enabled = false;
     }
 
-    public void ApplyEditing()
+    public void OnEdited() => _watchesController.SetLastEditedWatches(this);
+
+    public DateTime GetEditedTime()
     {
         var currentTime = DateTime.Now;
         var hours = Mathf.FloorToInt(Const.HoursInClockFace * _hoursArrow.transform.localRotation.eulerAngles.z / 360f);
         var minutes = Mathf.FloorToInt(Const.MinutesInHour * _minutesArrow.transform.localRotation.eulerAngles.z / 360f);
         var seconds = Mathf.FloorToInt(Const.SecondsInMinute * _secondsArrow.transform.localRotation.eulerAngles.z / 360f);
-        var newTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, hours, minutes, seconds);
-        Debug.Log(newTime);
+        return new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, hours, minutes, seconds);
     }
 }

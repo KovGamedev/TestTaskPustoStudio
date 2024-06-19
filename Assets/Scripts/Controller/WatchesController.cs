@@ -12,10 +12,11 @@ public class WatchesController : MonoBehaviour
     private List<IClockwork> _clockworks = new();
     private List<IEditable> _editableWathces = new();
     private Coroutine _watchesCoroutine;
+    private IEditable _lastEditableWatches;
 
-    private void Awake() => FillLists();
+    private void Awake() => AssignDependencies();
 
-    private void FillLists()
+    private void AssignDependencies()
     {
         foreach (var view in _watchesViews)
         {
@@ -25,9 +26,14 @@ public class WatchesController : MonoBehaviour
                 Debug.LogError($"{view.name} must implements IClockwork");
 
             if (view.TryGetComponent<IEditable>(out var editableWatches))
+            {
                 _editableWathces.Add(editableWatches);
+                editableWatches.SetController(this);
+            }
             else
+            {
                 Debug.LogError($"{view.name} must implements IEditable");
+            }
         }
     }
 
@@ -71,9 +77,10 @@ public class WatchesController : MonoBehaviour
     {
         foreach (var watches in _editableWathces)
         {
-            watches.ApplyEditing(); // TODO ѕриоритезировать последние измен€ющиес€ часы?
             watches.DectivateEditMode();
         }
+        _watchesModel.Time = _lastEditableWatches.GetEditedTime();
+        UpdateViews();
         _watchesCoroutine = StartCoroutine(CountDownEternity());
     }
 
@@ -86,4 +93,6 @@ public class WatchesController : MonoBehaviour
             UpdateViews();
         }
     }
+
+    public void SetLastEditedWatches(IEditable editableWathces) => _lastEditableWatches = editableWathces;
 }
