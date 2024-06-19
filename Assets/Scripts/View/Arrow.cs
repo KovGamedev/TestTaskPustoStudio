@@ -7,6 +7,9 @@ public class Arrow : MonoBehaviour
     [SerializeField] private UnityEvent _edited = new UnityEvent();
     [SerializeField] private ArrowTuningConfig _tuningConfig;
     [SerializeField] private Collider _collider;
+    [SerializeField] private Transform _editingPoint;
+
+    private Vector3 _initialLocalPosition;
 
     public void Tune(float targetLocalZ)
     {
@@ -24,6 +27,11 @@ public class Arrow : MonoBehaviour
             _edited.Invoke();
             var mousePositionOnObject = new Vector3(hit.point.x, hit.point.y, transform.position.z);
             transform.rotation = Quaternion.LookRotation(transform.forward, mousePositionOnObject - transform.position);
+            transform.localPosition = _editingPoint.localPosition;
         }
     }
+
+    void OnMouseExit() => transform.localPosition = _initialLocalPosition;
+
+    private void Start() => _initialLocalPosition = transform.localPosition;
 }
