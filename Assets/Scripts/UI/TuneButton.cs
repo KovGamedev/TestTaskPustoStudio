@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TuneButton : MonoBehaviour
+public class TuneButton : ColoredButton
 {
     [SerializeField] private WatchesController _watchesController;
     [Space]
@@ -14,8 +14,9 @@ public class TuneButton : MonoBehaviour
 
     private ButtonMode _currentMode;
 
-    public void OnPress()
+    public override void OnPress()
     {
+        base.OnPress();
         if (_currentMode == ButtonMode.EditMode)
             SwitchToWatchingMode();
         else

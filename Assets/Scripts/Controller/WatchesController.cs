@@ -75,12 +75,15 @@ public class WatchesController : MonoBehaviour
 
     public void SwitchToWatchingMode()
     {
-        foreach (var watches in _editableWathces)
+        if (_lastEditableWatches != null)
         {
-            watches.DectivateEditMode();
+            foreach (var watches in _editableWathces)
+            {
+                watches.DectivateEditMode();
+            }
+            _watchesModel.Time = _lastEditableWatches.GetEditedTime();
+            UpdateViews();
         }
-        _watchesModel.Time = _lastEditableWatches.GetEditedTime();
-        UpdateViews();
         _watchesCoroutine = StartCoroutine(CountDownEternity());
     }
 
