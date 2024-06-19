@@ -1,3 +1,4 @@
+using Cinemachine;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -5,6 +6,8 @@ using UnityEngine.UI;
 public class TuneButton : ColoredButton
 {
     [SerializeField] private WatchesController _watchesController;
+    [SerializeField] private CinemachineVirtualCamera _watchingCamera;
+    [SerializeField] private CinemachineVirtualCamera _editingCamera;
     [Space]
     [Header("Button settings")]
     [SerializeField] private Button _button;
@@ -25,6 +28,8 @@ public class TuneButton : ColoredButton
 
     private void SwitchToWatchingMode()
     {
+        _watchingCamera.Priority = 1;
+        _editingCamera.Priority = 0;
         _currentMode = ButtonMode.WatchingMode;
         _text.text = _textToEditMode;
         _watchesController.SwitchToWatchingMode();
@@ -32,6 +37,8 @@ public class TuneButton : ColoredButton
 
     private void SwitchToEditMode()
     {
+        _watchingCamera.Priority = 0;
+        _editingCamera.Priority = 1;
         _currentMode = ButtonMode.EditMode;
         _text.text = _textToApplyEditing;
         _watchesController.SwitchToEditMode();
